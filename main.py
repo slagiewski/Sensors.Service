@@ -15,11 +15,12 @@ ROOT_PATH = "/sensors"
 
 job_handles = []
 
+
 @APP.route(f"{ROOT_PATH}/weight")
 def weight():
     weight_scale_config = sensors["weight_scale"]
     result = weight_sensor.read_grams(
-        weight_scale_config["output_pin"], weight_scale_config["pd_sck_pin"])
+        weight_scale_config["output_pin"], weight_scale_config["pd_sck_pin"], weight_scale_config["offset"], weight_scale_config["ratio"])
     return jsonify({"weight": result})
 
 
@@ -32,7 +33,7 @@ def temperature():
 @APP.route(f"{ROOT_PATH}/magnetic_field")
 def magnetic_field():
     result = magnetometer.get_magnetic_field_value()
-    return jsonify({"X": result[0], "Y": result[1] })
+    return jsonify({"X": result[0], "Y": result[1]})
 
 
 @APP.route(f"{ROOT_PATH}/magnetic_field/last_changed")
@@ -48,9 +49,10 @@ def __init_magnetometer_job__():
 
 
 def main():
-#    job_handles.append(__init_magnetometer_job__())
+    #    job_handles.append(__init_magnetometer_job__())
     APP.debug = True
     APP.run(host='0.0.0.0')
+
 
 if __name__ == '__main__':
     main()
