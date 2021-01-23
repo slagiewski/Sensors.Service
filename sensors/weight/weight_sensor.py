@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import sys
+import statistics
 from .hx711 import HX711
 
 
@@ -27,7 +28,7 @@ def read_grams(output_pin, pd_sck_pin, weight_offset, weight_ratio):
         output_pin, pd_sck_pin, offset=weight_offset, ratio=weight_ratio)
 
     try:
-        result = hx.get_grams(32)
+        result = statistics.median([hx.get_grams(16) for i in range(4)])
         __reset_chip__(hx)
         return result
     except (SystemExit):
