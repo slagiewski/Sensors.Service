@@ -5,7 +5,7 @@ from flask import request, jsonify
 
 from sensors.weight import weight_sensor
 from sensors.temperature import temperature_sensor
-from sensors.magnetic_field import magnetometer
+#from sensors.magnetic_field import magnetometer
 
 from config import sensors
 
@@ -48,7 +48,7 @@ def __init_magnetometer_job__():
 
 
 def main():
-    job_handles.append(__init_magnetometer_job__())
+#    job_handles.append(__init_magnetometer_job__())
     APP.debug = True
     APP.run(host='0.0.0.0')
 
